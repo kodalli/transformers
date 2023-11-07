@@ -20,6 +20,8 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import numpy as np
 from huggingface_hub import hf_hub_download
+from utils import is_offline_mode
+import os
 
 from ...image_processing_utils import BaseImageProcessor, BatchFeature, get_size_dict
 from ...image_transforms import (
@@ -332,8 +334,12 @@ def get_oneformer_resize_output_image_size(
 
 
 def prepare_metadata(repo_path, class_info_file):
-    with open(hf_hub_download(repo_path, class_info_file, repo_type="dataset"), "r") as f:
-        class_info = json.load(f)
+    if is_offline_mode():
+        with open(os.path.join(repo_path, class_info_file), "r") as f:
+            class_info = json.load(f)
+    else:
+        with open(hf_hub_download(repo_path, class_info_file, repo_type="dataset"), "r") as f:
+            class_info = json.load(f)
     metadata = {}
     class_names = []
     thing_ids = []
