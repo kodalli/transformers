@@ -20,7 +20,7 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import numpy as np
 from huggingface_hub import hf_hub_download
-from utils import is_offline_mode
+from ...utils import is_offline_mode
 import os
 
 from ...image_processing_utils import BaseImageProcessor, BatchFeature, get_size_dict
